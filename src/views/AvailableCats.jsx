@@ -11,7 +11,8 @@ const availableCats = [
 
 export default function AvailableCats() {
   const [cats, setCats] = useState([]);
-
+  const [filteredCats, setFilteredCats] = useState([]);// to store the filtered list of cats
+  const [selectedBreed, setSelectedBreed] = useState('');//to track the selected breed for filtering
   useEffect(() => {
     // Fetch cat images from an API endpoint and assign it to the featuredCats list
     const fetchCatImages = async () => {
@@ -27,17 +28,47 @@ export default function AvailableCats() {
         console.error('Error fetching cat images:', error);
       }
     };
-
+    
     fetchCatImages();
   }, []);
+  useEffect(() => {
+    let filtered = cats;// filter cats for the selected breed
+    if (selectedBreed) {
+      filtered = filtered.filter(cat => cat.breed === selectedBreed);
+    }
+    setFilteredCats(filtered);//for updated selected breed cats
+  }, [selectedBreed, cats]);
 
+  // breeds for dropdown
+  const breeds = ['Sphynx', 'Peterbald', 'Birman', 'Abyssinian', 'Persian', 'Bengal', 'Siamese'];
   return (
     <section className="text-center mt-4">
       <h2>Available Cats</h2>
       <p>Meet our adorable cats looking for their forever home!</p>
 
+      <div className="filters mb-4">
+        <input
+          type="text"
+          placeholder="Search by name"
+          className="form-control mb-2"
+        />
+
+
+        <select
+          value={selectedBreed}
+          onChange={(e) => setSelectedBreed(e.target.value)}
+          className="form-select"
+        >
+          <option value="">Filter by Breed</option>
+          {breeds.map((breed, index) => (
+            <option key={index} value={breed}>{breed}</option>
+          ))}
+        </select>
+      </div>
+
+
       <div className="mt-2 row g-4 cats-container" id="cats-container">
-        {cats.map((cat, i) => (
+        {filteredCats.map((cat, i) => (
           <div key={i} className="col-md-4">
             <div className="cat-card">
               <img src={cat.image} alt={cat.name} className="img-fluid mb-2" style={{ borderRadius: '8px', height: '200px', objectFit: 'cover' }} />
