@@ -4,7 +4,7 @@ const availableCats = [
   { name: 'Whiskers', age: '2', breed: 'Sphynx' },
   { name: 'Mittens', age: '2', breed: 'Persian' },
   { name: 'Shadow', age: '1', breed: 'Abyssinian' },
-  { name: 'Pumpkin', age: '3', breed: 'Birman' },
+  { name: 'Pumpkin', age: '3', breed: 'Peterbald' },
   { name: 'Luna', age: '4', breed: 'Siamese' },
   { name: 'Simba', age: '2', breed: 'Bengal' },
 ];
@@ -13,6 +13,7 @@ export default function AvailableCats() {
   const [cats, setCats] = useState([]);
   const [filteredCats, setFilteredCats] = useState([]);// to store the filtered list of cats
   const [selectedBreed, setSelectedBreed] = useState('');//to track the selected breed for filtering
+  const [searchTerm, setSearchTerm] = useState('');//to searching cat by name
   useEffect(() => {
     // Fetch cat images from an API endpoint and assign it to the featuredCats list
     const fetchCatImages = async () => {
@@ -36,8 +37,12 @@ export default function AvailableCats() {
     if (selectedBreed) {
       filtered = filtered.filter(cat => cat.breed === selectedBreed);
     }
+    //for searching cat logic
+    if (searchTerm) {
+      filtered = filtered.filter(cat => cat.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
     setFilteredCats(filtered);//for updated selected breed cats
-  }, [selectedBreed, cats]);
+  }, [selectedBreed, cats,searchTerm]);
 
   // breeds for dropdown
   const breeds = ['Sphynx', 'Peterbald', 'Birman', 'Abyssinian', 'Persian', 'Bengal', 'Siamese'];
@@ -51,6 +56,8 @@ export default function AvailableCats() {
           type="text"
           placeholder="Search by name"
           className="form-control mb-2"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
 
 
@@ -71,7 +78,7 @@ export default function AvailableCats() {
         {filteredCats.map((cat, i) => (
           <div key={i} className="col-md-4">
             <div className="cat-card">
-              <img src={cat.image} alt={cat.name} className="img-fluid mb-2" style={{ borderRadius: '8px', height: '200px', objectFit: 'cover' }} />
+              <img src={cat.image} alt={cat.name} className="img-fluid mb-2" style={{ borderRadius: '8px', height: '180px', objectFit: 'cover' }} />
               <div className="cat-info">
                 <h3 className="h5 mb-1">{cat.name}</h3>
                 <p className="mb-0">Age: {cat.age}</p>
