@@ -31,15 +31,15 @@ export default function Home() {
   return (
     <>
       <section className="text-center mt-4">
-        <h2>Welcome to Purrfect Adoption</h2>
+        <h2 className='text-5xl'>Welcome to Purrfect Adoption</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luc Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luc Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luc
+        Thank you for your interest in adopting from the Purrfect Adoption!
+        Please take a look at our adoptable cats from available cats page.
         </p>
       </section>
 
       <section className="mt-5">
-        <h2>Featured cats</h2>
+        <h2 className='text-3xl text-center'>Featured cats</h2>
         <div className="mt-2 row g-4" id="cats-container"></div>
         <div className="mt-2 row g-4" id="cats-container">
           {cats.map((cat, i) => (
